@@ -7,11 +7,13 @@ using QuizApi.Models;
 using QuizApi.Data;
 using Microsoft.EntityFrameworkCore;
 using QuizApi.Models.EnumModel;
+using Microsoft.AspNetCore.Authorization;
 
 namespace QuizApi.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
+    [Authorize]
     public class QuizController : ControllerBase
     {
         private QuizAppDbContext _dbContext;
@@ -21,6 +23,7 @@ namespace QuizApi.Controllers
         }
 
         [HttpGet]
+        [Authorize(Policy = "UserFreePolicy")]
         public IActionResult GetQuizQuestions(){
             var Questions = _dbContext.Quiz
                     .Include(x=>x.Options)
@@ -32,6 +35,7 @@ namespace QuizApi.Controllers
         }
         [HttpPost]
         [Route("getsectionqn/{sectionid}")]
+        [Authorize(Policy = "UserFreePolicy")]
         public IActionResult GenarateQuiz(Part sectionid){
             var SecQns = _dbContext.Quiz
                              .Where(qu=>qu.QnCategory.Section==sectionid)
@@ -46,6 +50,7 @@ namespace QuizApi.Controllers
         }
 
         [HttpPost]
+        [Authorize(Policy = "AdminEditPolicy")]
         public IActionResult AddQuestion(QuizQuestionDTO QuizQuestion){
             List<Option> optionsList = new List<Option>();
             
