@@ -18,6 +18,12 @@ namespace QuizApi.Models.EnumModel
         Translation,
         TamilArinjarAndThoondu
     }
+    public enum SubscriptionType
+    {
+        Free = 1,
+        Pro,
+        ProMax
+    }
     public enum GKUnit{
         NA,
         Science,
